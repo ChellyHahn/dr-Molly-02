@@ -3,387 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>달빛문구</title>
-  <style>
-    :root {
-      --cream: #fbf6ea;
-      --cream-deep: #f1e8d4;
-      --paper: #fffdf7;
-      --navy: #1f2a56;
-      --navy-soft: #34407a;
-      --text: #3a3a3a;
-      --muted: #8a8272;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--cream);
-      color: var(--text);
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-      line-height: 1.6;
-    }
-
-    button { font-family: inherit; cursor: pointer; }
-
-    header {
-      text-align: center;
-      padding: 56px 16px 40px;
-      border-bottom: 1px solid var(--cream-deep);
-    }
-    header .moon { font-size: 40px; }
-    header h1 { color: var(--navy); font-size: 36px; letter-spacing: 2px; margin-top: 8px; }
-    header p { color: var(--muted); margin-top: 6px; }
-
-    .layout {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 32px 16px 64px;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 32px;
-      align-items: start;
-    }
-
-    /* ---------- 상품 목록 ---------- */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-    .filters button {
-      background: transparent;
-      border: 1px solid var(--navy);
-      color: var(--navy);
-      border-radius: 999px;
-      padding: 6px 16px;
-      font-size: 14px;
-    }
-    .filters button.active,
-    .filters button:hover { background: var(--navy); color: var(--cream); }
-    .controls select {
-      border: 1px solid var(--navy);
-      background: var(--cream);
-      color: var(--navy);
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 14px;
-      font-family: inherit;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: var(--paper);
-      border: 1px solid var(--cream-deep);
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(31, 42, 86, 0.12); }
-    .thumb { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 56px; }
-    .thumb.navy { background: var(--navy); }
-    .thumb.cream { background: var(--cream-deep); }
-    .info { padding: 16px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
-    .category { font-size: 12px; color: var(--muted); }
-    .name { color: var(--navy); font-size: 17px; font-weight: 700; }
-    .price { color: var(--navy); font-weight: 700; font-size: 16px; margin-top: auto; }
-
-    .btn {
-      background: var(--navy);
-      color: var(--cream);
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-    }
-    .btn:hover { background: var(--navy-soft); }
-    .btn:disabled { background: #b9b3a5; cursor: not-allowed; }
-    .add { margin-top: 10px; }
-
-    /* ---------- 장바구니 ---------- */
-    .cart {
-      position: sticky;
-      top: 24px;
-      background: var(--paper);
-      border: 1px solid var(--cream-deep);
-      border-radius: 14px;
-      padding: 20px;
-    }
-    .cart h2 { color: var(--navy); font-size: 20px; margin-bottom: 14px; }
-    .cart-empty { color: var(--muted); font-size: 14px; padding: 12px 0 4px; }
-
-    .cart-items { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .cart-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 4px 8px;
-      padding-bottom: 12px;
-      border-bottom: 1px dashed var(--cream-deep);
-    }
-    .cart-item .ci-name { color: var(--navy); font-weight: 600; font-size: 15px; }
-    .cart-item .ci-sum { color: var(--navy); font-weight: 700; font-size: 15px; text-align: right; }
-    .qty { display: flex; align-items: center; gap: 8px; }
-    .qty button {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 1px solid var(--navy);
-      background: transparent;
-      color: var(--navy);
-      font-size: 15px;
-      line-height: 1;
-    }
-    .qty button:hover { background: var(--navy); color: var(--cream); }
-    .qty span { min-width: 18px; text-align: center; font-size: 14px; }
-    .remove {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: right;
-      text-decoration: underline;
-    }
-
-    .summary { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
-    .summary .row { display: flex; justify-content: space-between; }
-    .summary .total {
-      margin-top: 6px;
-      padding-top: 10px;
-      border-top: 1px solid var(--cream-deep);
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 17px;
-    }
-
-    .free-ship {
-      margin-top: 14px;
-      background: var(--cream);
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 13px;
-      color: var(--navy);
-    }
-    .free-ship strong { font-weight: 700; }
-    .bar { height: 6px; background: var(--cream-deep); border-radius: 999px; margin-top: 8px; overflow: hidden; }
-    .bar div { height: 100%; background: var(--navy); width: 0; transition: width 0.25s; }
-
-    .order { width: 100%; margin-top: 16px; padding: 12px; font-size: 15px; }
-    .order-notice {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--navy);
-      background: var(--cream-deep);
-      border-radius: 10px;
-      padding: 12px;
-      display: none;
-    }
-    .order-notice.show { display: block; }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      padding: 24px 16px 40px;
-      border-top: 1px solid var(--cream-deep);
-    }
-
-    @media (max-width: 860px) {
-      .layout { grid-template-columns: 1fr; }
-      .cart { position: static; }
-    }
-  </style>
+  <title>달빛 DALBIT</title>
+  <meta name="description" content="일상에 스며드는 차분하고 오래 입는 옷, 달빛 DALBIT" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <div class="moon">🌙</div>
-    <h1>달빛문구</h1>
-    <p>밤에 쓰는 기록을 위한 작은 문구점</p>
+  <a class="skip-link" href="#app">본문 바로가기</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#/" aria-label="달빛 DALBIT 홈">DALBIT</a>
+
+      <nav class="gnb" aria-label="주요 메뉴">
+        <ul>
+          <li><a href="#/" data-nav="home">HOME</a></li>
+          <li><a href="#/shop" data-nav="shop">SHOP</a></li>
+          <li><a href="#/shop/top" data-nav="top">TOP</a></li>
+          <li><a href="#/shop/bottom" data-nav="bottom">BOTTOM</a></li>
+          <li><a href="#/shop/outer" data-nav="outer">OUTER</a></li>
+          <li><a href="#/about" data-nav="about">ABOUT</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a class="icon-link" id="wish-link" href="#/wishlist" data-nav="wishlist" aria-label="관심 상품 0개">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
+          </svg>
+          <span class="count" id="wish-count" aria-hidden="true" hidden>0</span>
+        </a>
+        <a class="icon-link" id="cart-link" href="#/cart" data-nav="cart" aria-label="장바구니 0개">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 8h14l-1 12H6L5 8z" />
+            <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+          </svg>
+          <span class="count" id="cart-count" aria-hidden="true" hidden>0</span>
+        </a>
+      </div>
+    </div>
   </header>
 
-  <div class="layout">
-    <main>
-      <div class="controls">
-        <div class="filters" id="filters">
-          <button class="active" data-category="전체">전체</button>
-          <button data-category="노트">노트</button>
-          <button data-category="펜">펜</button>
-          <button data-category="카드">카드</button>
-        </div>
-        <select id="sort" aria-label="정렬">
-          <option value="default">기본순</option>
-          <option value="low">가격 낮은순</option>
-          <option value="high">가격 높은순</option>
-        </select>
-      </div>
-      <div class="grid" id="grid"></div>
-    </main>
+  <main id="app" tabindex="-1">
+    <p class="loading">상품을 불러오는 중입니다…</p>
+  </main>
 
-    <aside class="cart" id="cart">
-      <h2>🛒 장바구니</h2>
-      <p class="cart-empty" id="cart-empty">장바구니가 비어 있어요.</p>
-      <ul class="cart-items" id="cart-items"></ul>
+  <footer class="site-footer">
+    <p class="footer-logo">DALBIT</p>
+    <p>일상에 스며드는 차분하고 오래 입는 옷</p>
+    <p class="footer-small">배송비 3,000원 · 50,000원 이상 구매 시 무료배송</p>
+    <p class="footer-small">© DALBIT</p>
+  </footer>
 
-      <div class="summary">
-        <div class="row"><span>상품 금액</span><span id="subtotal">0원</span></div>
-        <div class="row"><span>배송비</span><span id="shipping">0원</span></div>
-        <div class="row total"><span>결제 예정 금액</span><span id="total">0원</span></div>
-      </div>
-
-      <div class="free-ship">
-        <div id="free-ship-text"></div>
-        <div class="bar"><div id="free-ship-bar"></div></div>
-      </div>
-
-      <button class="btn order" id="order-btn" disabled>주문하기</button>
-      <div class="order-notice" id="order-notice"></div>
-    </aside>
-  </div>
-
-  <footer>© 달빛문구 · 오늘 밤도 천천히 기록해요</footer>
-
-  <script>
-    const SHIPPING_FEE = 3000;
-    const FREE_SHIPPING_MIN = 50000;
-
-    const products = [
-      { id: 1, name: "달빛 노트",          price: 4500,  category: "노트", emoji: "🌙", tone: "navy" },
-      { id: 2, name: "별자리 스프링노트",  price: 6000,  category: "노트", emoji: "✨", tone: "cream" },
-      { id: 3, name: "크림 메모패드",      price: 3000,  category: "노트", emoji: "📝", tone: "cream" },
-      { id: 4, name: "밤하늘 젤펜",        price: 2000,  category: "펜",   emoji: "🖊️", tone: "navy" },
-      { id: 5, name: "남색 만년필",        price: 18000, category: "펜",   emoji: "✒️", tone: "cream" },
-      { id: 6, name: "초승달 형광펜 세트", price: 5500,  category: "펜",   emoji: "🖍️", tone: "navy" },
-      { id: 7, name: "달빛 엽서 세트",     price: 7000,  category: "카드", emoji: "💌", tone: "cream" },
-      { id: 8, name: "별 스티커",          price: 2500,  category: "카드", emoji: "⭐", tone: "navy" },
-    ];
-
-    let currentCategory = "전체";
-    let currentSort = "default";
-    const cart = {}; // { 상품id: 수량 }
-
-    const won = (n) => n.toLocaleString() + "원";
-    const $ = (id) => document.getElementById(id);
-
-    /* ---------- 상품 목록 ---------- */
-    function renderProducts() {
-      let list = products.filter(
-        (p) => currentCategory === "전체" || p.category === currentCategory
-      );
-      if (currentSort === "low") list = [...list].sort((a, b) => a.price - b.price);
-      if (currentSort === "high") list = [...list].sort((a, b) => b.price - a.price);
-
-      $("grid").innerHTML = list
-        .map(
-          (p) => `
-          <div class="card">
-            <div class="thumb ${p.tone}">${p.emoji}</div>
-            <div class="info">
-              <span class="category">${p.category}</span>
-              <span class="name">${p.name}</span>
-              <span class="price">${won(p.price)}</span>
-              <button class="btn add" data-id="${p.id}">장바구니 담기</button>
-            </div>
-          </div>`
-        )
-        .join("");
-    }
-
-    /* ---------- 장바구니 ---------- */
-    function renderCart() {
-      const ids = Object.keys(cart).map(Number);
-      $("cart-empty").style.display = ids.length ? "none" : "block";
-
-      $("cart-items").innerHTML = ids
-        .map((id) => {
-          const p = products.find((x) => x.id === id);
-          const qty = cart[id];
-          return `
-            <li class="cart-item">
-              <span class="ci-name">${p.emoji} ${p.name}</span>
-              <span class="ci-sum">${won(p.price * qty)}</span>
-              <div class="qty">
-                <button data-action="dec" data-id="${id}" aria-label="수량 줄이기">−</button>
-                <span>${qty}</span>
-                <button data-action="inc" data-id="${id}" aria-label="수량 늘리기">+</button>
-              </div>
-              <button class="remove" data-action="remove" data-id="${id}">삭제</button>
-            </li>`;
-        })
-        .join("");
-
-      const subtotal = ids.reduce(
-        (sum, id) => sum + products.find((x) => x.id === id).price * cart[id],
-        0
-      );
-      const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE;
-
-      $("subtotal").textContent = won(subtotal);
-      $("shipping").textContent = subtotal >= FREE_SHIPPING_MIN ? "무료" : won(shipping);
-      $("total").textContent = won(subtotal + shipping);
-
-      const remaining = FREE_SHIPPING_MIN - subtotal;
-      $("free-ship-text").innerHTML =
-        remaining > 0
-          ? `무료배송까지 <strong>${won(remaining)}</strong> 남았어요`
-          : `🌙 <strong>무료배송</strong> 조건을 채웠어요!`;
-      $("free-ship-bar").style.width =
-        Math.min(100, (subtotal / FREE_SHIPPING_MIN) * 100) + "%";
-
-      $("order-btn").disabled = subtotal === 0;
-      $("order-notice").classList.remove("show");
-    }
-
-    /* ---------- 이벤트 ---------- */
-    $("filters").addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-      document.querySelectorAll("#filters button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCategory = btn.dataset.category;
-      renderProducts();
-    });
-
-    $("sort").addEventListener("change", (e) => {
-      currentSort = e.target.value;
-      renderProducts();
-    });
-
-    $("grid").addEventListener("click", (e) => {
-      const btn = e.target.closest(".add");
-      if (!btn) return;
-      const id = Number(btn.dataset.id);
-      cart[id] = (cart[id] || 0) + 1;
-      renderCart();
-    });
-
-    $("cart-items").addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-      const id = Number(btn.dataset.id);
-      if (btn.dataset.action === "inc") cart[id]++;
-      if (btn.dataset.action === "dec") cart[id]--;
-      if (btn.dataset.action === "remove" || cart[id] <= 0) delete cart[id];
-      renderCart();
-    });
-
-    $("order-btn").addEventListener("click", () => {
-      $("order-notice").innerHTML =
-        `결제 예정 금액은 <strong>${$("total").textContent}</strong>입니다.<br>` +
-        `지금은 온라인 결제를 준비 중이에요. 주문은 매장 또는 고객센터로 문의해 주세요.`;
-      $("order-notice").classList.add("show");
-    });
-
-    renderProducts();
-    renderCart();
-  </script>
+  <script src="js/data/products.js"></script>
+  <script src="js/images.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
