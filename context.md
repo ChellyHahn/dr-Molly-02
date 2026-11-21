@@ -28,9 +28,10 @@
 - 새로고침 후에도 장바구니·관심 상품 유지, 깨진 저장 데이터는 무시하고 시작
 
 **Git**
-- 저장소: 이 폴더 (`master` 브랜치), 원격 저장소 없음
+- 저장소: 이 폴더 (`main` 브랜치, `master`에서 이름 변경)
+- 원격 저장소: GitHub `ChellyHahn/dr-molly-001` (https://github.com/ChellyHahn/dr-molly-001), `origin`
 - 작성자 설정(local): MollyHahn / chelly4ever2@naver.com
-- 커밋: `20676ef` 달빛문구 미니 쇼핑몰 1차 구현 → 이번 커밋에서 패션 쇼핑몰 리뉴얼
+- 커밋: `20676ef` 달빛문구 미니 쇼핑몰 1차 구현 → `5aae772` 패션 쇼핑몰 리뉴얼 → first commit (README.md 추가)
 
 ## 결정한 것
 
@@ -51,4 +52,4 @@
 - [ ] 실제 상품 사진이 생기면 `products.js`의 `image.src`에 넣기
 - [ ] 주문하기 안내 문구 확정하기
 - [ ] 빈 파일 `spec.md.txt` 지울지 정하기 (`spec.md.md` → `spec.md` 이름 정리도)
-- [ ] GitHub 등 원격 저장소 연결 후 push 할지 정하기
+- [ ] README.md에 쇼핑몰 소개·실행 방법 채우기 (지금은 제목 한 줄)
